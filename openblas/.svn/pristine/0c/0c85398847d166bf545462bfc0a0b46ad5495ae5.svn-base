@@ -1,0 +1,18 @@
+package:
+  name: openblas
+  version: 0.2.15
+
+source:
+  fn: openblas-0.2.15.tgz
+  url: http://github.com/xianyi/OpenBLAS/tarball/v0.2.15
+  md5: d7f94dc1f4f37285a7d00c679a0cef40
+
+build:
+  number: 1
+
+  track_features:
+    - openblas
+
+about:
+  home: http://xianyi.github.io/OpenBLAS/
+  license: BSD
