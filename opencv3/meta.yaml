@@ -1,0 +1,35 @@
+{% set version = "master" %}
+package:
+  name: opencv3
+  version: {{ version }}
+source:
+  fn: opencv-{{ version }}.tar.gz
+  url: https://github.com/opencv/opencv/archive/{{ version }}.tar.gz
+  
+  patches:
+    - cap_mpjpeg_decoder.patch  # [win]
+
+requirements:
+  build:
+   - python
+   - cmake
+   - hdf5 1.8.15.1  # [osx]
+   - numpy
+   - eigen >3.2
+   - tbb 4.3_20141023  # [osx]
+   - msinttypes r26  # [win and py<35]
+
+  run:
+   - python
+   - numpy
+   - hdf5 1.8.15.1  # [osx]
+   - tbb 4.3_20141023  # [osx]
+
+test:
+  imports:
+    - cv2
+    - cv2.xfeatures2d
+
+about:
+  home: http://opencv.org/
+  license: BSD
