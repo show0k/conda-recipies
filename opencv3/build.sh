@@ -16,6 +16,12 @@ if [ "${SHORT_OS_STR:0:5}" == "Linux" ]; then
     mkdir -p $SRC_DIR/3rdparty/ippicv/downloads/linux-808b791a6eac9ed78d32a7666804320e
     curl -L https://raw.githubusercontent.com/Itseez/opencv_3rdparty/81a676001ca8075ada498583e4166079e5744668/ippicv/ippicv_linux_20151201.tgz -o $SRC_DIR/3rdparty/ippicv/downloads/linux-808b791a6eac9ed78d32a7666804320e/ippicv_linux_20151201.tgz
 fi
+
+if [ "$(uname -m)" == "armv7l" ]; then
+    NEON="-DENABLE_NEON=ON"
+    VFP="-DENABLE_VFPV3=ON"
+fi
+
 if [ "${SHORT_OS_STR}" == "Darwin" ]; then
     IS_OSX=1
     DYNAMIC_EXT="dylib"
@@ -38,12 +44,12 @@ else
     OCV_PYTHON="-DBUILD_opencv_python2=1 -DPYTHON2_EXECUTABLE=$PYTHON -DPYTHON2_INCLUDE_DIR=$PREFIX/include/python${PY_VER} -DPYTHON2_LIBRARY=${PREFIX}/lib/libpython${PY_VER}.${DYNAMIC_EXT} -DPYTHON_INCLUDE_DIR2=$PREFIX/include/python${PY_VER}"
 fi
 
-git clone https://github.com/Itseez/opencv_contrib
-cd opencv_contrib
-#git checkout tags/$PKG_VERSION
-cd ..
+curl -L -O "https://github.com/opencv/opencv_contrib/archive/$PKG_VERSION.tar.gz"
+tar -zxf $PKG_VERSION.tar.gz
 
 cmake .. -G"$CMAKE_GENERATOR"                                            \
+    $NEON                                                                \
+    $VFP                                                                 \
     $TBB                                                                 \
     $OPENMP                                                              \
     $OCV_PYTHON                                                          \

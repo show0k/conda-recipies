@@ -13,6 +13,7 @@ requirements:
   build:
    - python
    - cmake
+   - openblas
    - hdf5 1.8.15.1  # [osx]
    - numpy
    - eigen >3.2
